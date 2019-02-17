@@ -1,0 +1,30 @@
+TASKS: 
+ <button (click)="publish()" style="float:right"> Objavi rad </button>
+ <button (click)="logout()" style="float:right"> Odjava </button>
+<table>
+  <tr *ngFor="let task of tasks">
+    <td>{{task.name}}</td>
+    <td><button (click)="doTask(task.taskId)">Uradi zadatak</button></td>
+  </tr>
+
+</table>
+
+
+<form #f="ngForm" (ngSubmit)="onSubmit(f.value, f)">
+
+  <div *ngFor="let field of formFields">
+    <label for={{field.id}}>{{field.label}}</label>
+
+    <input type="text" name={{field.id}} ngModel *ngIf="field.type.name=='string'">
+    <input type="checkbox" name={{field.id}} ngModel *ngIf="field.type.name=='boolean'">
+    <input type="number" name={{field.id}} ngModel *ngIf="field.type.name=='long'">
+    <select name={{field.id}} ngModel *ngIf="field.type.name=='enum'">
+      <option *ngFor="let val of enumValues" value={{val}}>
+        {{field.type.values[val]}}
+      </option>
+    </select>
+  </div>
+<div *ngIf ="formFields">
+  <input type="submit">
+</div>
+</form>
