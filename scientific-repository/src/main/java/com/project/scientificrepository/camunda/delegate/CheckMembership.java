@@ -14,6 +14,7 @@ public class CheckMembership implements JavaDelegate {
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 		// TODO Auto-generated method stub
+		System.out.println("CHECK MEMBERSHIP");
 		Magazine magazine = (Magazine) execution.getVariable("chosenMagazine");
 		User user = (User) execution.getVariable("loggedAuthor");
 		

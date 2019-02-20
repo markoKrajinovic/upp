@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 
 @Entity
@@ -22,12 +23,18 @@ public class Magazine {
 	@Column
 	private String name;
 	
+	@Column(nullable = false, unique = true)
+	private String issn;
+	
 	@Column
 	@Enumerated(EnumType.STRING)
 	private ACCESS_TYPE type;
 
 	@ManyToMany(mappedBy = "magazines")
 	private List<Thesis> theses;
+	
+	@OneToOne(optional = false)
+	private EditorComitee editorComitee;
 	
 	@ManyToMany(mappedBy = "memberships")
 	private List<Author> authors;
@@ -70,6 +77,22 @@ public class Magazine {
 
 	public void setAuthors(List<Author> authors) {
 		this.authors = authors;
+	}
+
+	public EditorComitee getEditorComitee() {
+		return editorComitee;
+	}
+
+	public void setEditorComitee(EditorComitee editorComitee) {
+		this.editorComitee = editorComitee;
+	}
+
+	public String getIssn() {
+		return issn;
+	}
+
+	public void setIssn(String issn) {
+		this.issn = issn;
 	}
 	
 	

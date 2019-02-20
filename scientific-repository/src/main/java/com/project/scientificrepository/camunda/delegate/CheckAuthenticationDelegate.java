@@ -18,6 +18,7 @@ public class CheckAuthenticationDelegate implements JavaDelegate {
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 		// TODO Auto-generated method stub
+		System.out.println("CHECK AUTHENTICATION");
 		Token token = (Token) execution.getVariable("starter");
 		System.out.println("TOKEN " + token.getUsername());
 

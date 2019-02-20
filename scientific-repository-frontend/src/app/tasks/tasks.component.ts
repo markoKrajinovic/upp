@@ -1,4 +1,5 @@
-import { ProcessService } from './../process.service';
+import { Router } from '@angular/router';
+import { ProcessService } from '../services/process.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -16,7 +17,7 @@ export class TasksComponent implements OnInit {
   private enumValues = [];
 
 
-  constructor(private processService: ProcessService) { }
+  constructor(private processService: ProcessService, private router: Router) { }
 
   ngOnInit() {
       this.processService.getTasks().subscribe((data: any) => {
@@ -67,5 +68,14 @@ export class TasksComponent implements OnInit {
 
   logout(){
     localStorage.clear();
+    this.router.navigate(['login']);
+  }
+
+  isAuthor(): boolean {
+    var role = localStorage.getItem('role');
+    if (role == 'author')
+      return true;
+    else
+      return false;
   }
 }

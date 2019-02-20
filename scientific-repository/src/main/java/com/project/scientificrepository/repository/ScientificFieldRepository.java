@@ -1,12 +1,13 @@
-/*package com.project.scientificrepository.repository;
+package com.project.scientificrepository.repository;
 
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.project.scientificrepository.model.FIELD_NAME;
 import com.project.scientificrepository.model.ScientificField;
 
 
-public interface ScientificFieldRepository extends ElasticsearchRepository<ScientificField, String> {
+public interface ScientificFieldRepository extends JpaRepository<ScientificField, Long> {
 
-	Iterable<ScientificField> findByFieldName(String fieldName);
+	ScientificField findByFieldName(FIELD_NAME fn);
 
-}*/
+}

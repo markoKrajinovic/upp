@@ -23,14 +23,14 @@ public class IsMagazineOpenAccessDelegate implements JavaDelegate {
 		@SuppressWarnings("unchecked")
 		List<FormSubmissionDto> formFields = (List<FormSubmissionDto>) execution.getVariable("biranje_casopisa");
 
-		String magazineName = "";
+		String magazineIssn = "";
 		System.out.println("is MAGAZINE OPEN ACCESS SERVICE");
 		for (FormSubmissionDto field : formFields) {
-			magazineName = field.getFieldValue();
+			magazineIssn = field.getFieldValue();
 		}
 		
-		Magazine m = magazineRepository.findByName(magazineName);
-		System.out.println("MAGAZIN " + m.getType());
+		Magazine m = magazineRepository.findByIssn(magazineIssn);
+		System.out.println("MAGAZIN " + m.getName() + " " + m.getType());
 		execution.setVariable("chosenMagazine", m);
 		
 	}

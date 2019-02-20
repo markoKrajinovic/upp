@@ -13,6 +13,7 @@ public class GetThesesDelegate implements JavaDelegate {
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 		// TODO Auto-generated method stub
+		System.out.println("GET THESES");
 		/*List<Thesis> theses = thesisRepository.findAll();
 
 		Task task = taskService.createTaskQuery().taskName("Biranje casopisa").singleResult();

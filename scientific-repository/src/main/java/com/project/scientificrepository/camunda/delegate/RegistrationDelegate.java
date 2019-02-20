@@ -77,14 +77,14 @@ public class RegistrationDelegate implements JavaDelegate {
 			}
 			if (formField.getFieldId().equals("username_registracija")) {
 				newAuthor.setUsername(formField.getFieldValue());
-				if (authorRepository.findByUsername(formField.getFieldValue()) != null)
-					throw new BpmnError("duplicate_username");
+				/*if (authorRepository.findByUsername(formField.getFieldValue()) != null)
+					throw new BpmnError("duplicate_username");*/
 			}
 		}
 
 		
-		Author a = authorRepository.save(newAuthor);
-		return a;
+		//Author a = authorRepository.save(newAuthor);
+		return newAuthor;
 	}
 
 }

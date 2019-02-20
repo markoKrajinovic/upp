@@ -1,5 +1,6 @@
 package com.project.scientificrepository.model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -21,6 +22,9 @@ public class Thesis {
 
 	@Column(nullable = false)
 	private String title;
+	
+	@Column
+	private String keyWords;
 
 	@Column
 	// @Size(min = 3, max = 35)
@@ -33,10 +37,7 @@ public class Thesis {
 	private String pdfText;
 
 	@ManyToMany
-	private List<Magazine> magazines;
-
-	@ManyToMany
-	private List<KeyWord> keyWords;
+	private List<Magazine> magazines = new LinkedList<Magazine>();
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "author_fk")
@@ -57,9 +58,6 @@ public class Thesis {
 		this.id = id;
 	}
 
-	public void setKeyWords(List<KeyWord> keyWords) {
-		this.keyWords = keyWords;
-	}
 
 	public String getTitle() {
 		return title;
@@ -91,6 +89,16 @@ public class Thesis {
 
 	public void setPdfFinalLocation(String pdfFinalLocation) {
 		this.pdfFinalLocation = pdfFinalLocation;
+	}
+	
+	
+
+	public String getKeyWords() {
+		return keyWords;
+	}
+
+	public void setKeyWords(String keyWords) {
+		this.keyWords = keyWords;
 	}
 
 	public Author getAuthor() {
@@ -132,10 +140,5 @@ public class Thesis {
 	public void setMagazines(List<Magazine> magazines) {
 		this.magazines = magazines;
 	}
-
-	public List<KeyWord> getKeyWords() {
-		return keyWords;
-	}
-
 	
 }

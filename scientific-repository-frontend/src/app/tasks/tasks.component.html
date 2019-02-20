@@ -1,5 +1,5 @@
 TASKS: 
- <button (click)="publish()" style="float:right"> Objavi rad </button>
+ <button *ngIf = "isAuthor()" (click)="publish()" style="float:right"> Objavi rad </button>
  <button (click)="logout()" style="float:right"> Odjava </button>
 <table>
   <tr *ngFor="let task of tasks">

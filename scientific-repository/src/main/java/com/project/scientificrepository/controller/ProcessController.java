@@ -64,9 +64,8 @@ public class ProcessController {
 		List<TaskDto> dtos = new ArrayList<TaskDto>();
 
 		for (Task task : tasks) {
-			boolean notTakenLoginTask = task.getName().equals("Logovanje");
 			boolean notTakenRegistrationTask = task.getName().equals("Unos podataka za registraciju");
-			if (notTakenLoginTask || notTakenRegistrationTask) {
+			if (notTakenRegistrationTask) {
 				dtos.add(new TaskDto(task.getId(), task.getName()));
 			} else if (token.getUsername() != null)
 				if (token.getUsername().equals(task.getAssignee())) {

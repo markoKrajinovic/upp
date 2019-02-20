@@ -26,7 +26,7 @@ public class Reviewer {
 	private String country;
 	
 	@Column
-	private String email;
+	private String eMail;
 	
 	@Column
 	private String username;
@@ -74,12 +74,12 @@ public class Reviewer {
 		this.country = country;
 	}
 
-	public String getEmail() {
-		return email;
+	public String geteMail() {
+		return eMail;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void seteMail(String eMail) {
+		this.eMail = eMail;
 	}
 
 	public String getUsername() {
