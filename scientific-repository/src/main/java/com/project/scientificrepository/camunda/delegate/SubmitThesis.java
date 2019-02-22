@@ -28,9 +28,6 @@ public class SubmitThesis implements JavaDelegate {
 	private AuthorRepository authorRepository;
 	
 	@Autowired
-	private EmailService emailService;
-	
-	@Autowired
 	private ThesisRepository thesisRepository;
 
 	@Override
@@ -49,13 +46,10 @@ public class SubmitThesis implements JavaDelegate {
 		thesis.getMagazines().add(magazine);
 		
 		thesisRepository.save(thesis);
-		
-		System.out.println("CHIEF EDITOR " + magazine.getEditorComitee().getChiefEditor().getUsername());
-		System.out.println("AUTHOR " + author.getUsername());
-		
-		emailService.sendThesisSubmitetMail(author.geteMail(), magazine.getEditorComitee().getChiefEditor().geteMail(), thesis);
 
+		execution.setVariable("thesis", thesis);
 		execution.setVariable("chiefEditor", magazine.getEditorComitee().getChiefEditor());
+
 	}
 
 	private Thesis loadThesis(List<FormSubmissionDto> thesisForm) {

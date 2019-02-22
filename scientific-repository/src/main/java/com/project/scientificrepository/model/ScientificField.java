@@ -9,8 +9,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-
 
 
 @Entity
@@ -26,7 +26,12 @@ public class ScientificField {
 
 	@OneToMany(mappedBy = "scientificField")
 	private List<Thesis> theses;
-
+	
+	@ManyToMany
+	private List<Magazine> magazines;
+	
+	@ManyToMany
+	private List<Editor> editors;
 
 
 	public Long getId() {
@@ -51,6 +56,22 @@ public class ScientificField {
 
 	public void setTheses(List<Thesis> theses) {
 		this.theses = theses;
+	}
+
+	public List<Magazine> getMagazines() {
+		return magazines;
+	}
+
+	public void setMagazines(List<Magazine> magazines) {
+		this.magazines = magazines;
+	}
+
+	public List<Editor> getEditors() {
+		return editors;
+	}
+
+	public void setEditors(List<Editor> editors) {
+		this.editors = editors;
 	}
 
 

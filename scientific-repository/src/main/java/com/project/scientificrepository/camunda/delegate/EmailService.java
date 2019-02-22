@@ -60,5 +60,42 @@ public class EmailService {
 			me.printStackTrace();
 		}
 	}
+	
+	public void sendMail(String sendTo, String subject, String content) {
+		
+		Properties props = System.getProperties();
+		String host = "smtp.gmail.com";
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", host);
+		props.put("mail.smtp.user", sentBy);
+		props.put("mail.smtp.password", pass);
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.auth", "true");
+		//props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
+
+		Session session = Session.getDefaultInstance(props);
+		MimeMessage message = new MimeMessage(session);
+
+		try {
+			message.setFrom(new InternetAddress(sentBy));
+
+			InternetAddress toAddress = new InternetAddress(sendTo);
+			
+			message.addRecipient(Message.RecipientType.TO, toAddress);
+
+			message.setSubject(subject);
+			message.setText(content);
+			
+			Transport transport = session.getTransport("smtp");
+			transport.connect(host, sentBy, pass);
+			transport.sendMessage(message, message.getAllRecipients());
+			transport.close();
+		} catch (AddressException ae) {
+			ae.printStackTrace();
+		} catch (MessagingException me) {
+			me.printStackTrace();
+		}
+	}
 
 }

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.project.scientificrepository.dto.FormSubmissionDto;
 import com.project.scientificrepository.model.Author;
-import com.project.scientificrepository.repository.AuthorRepository;
 
 @Service
 public class RegistrationDelegate implements JavaDelegate {
@@ -20,8 +19,6 @@ public class RegistrationDelegate implements JavaDelegate {
 	@Autowired
 	private IdentityService identityService;
 
-	@Autowired
-	private AuthorRepository authorRepository;
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {

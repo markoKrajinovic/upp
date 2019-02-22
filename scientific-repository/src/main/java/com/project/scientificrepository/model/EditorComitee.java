@@ -1,9 +1,12 @@
 package com.project.scientificrepository.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -18,6 +21,9 @@ public class EditorComitee {
 	
 	@OneToOne(optional = false)
 	private Editor chiefEditor;
+	
+	@OneToMany(mappedBy = "editorComitee")
+	private List<Editor> editors;
 
 	public Long getId() {
 		return id;
@@ -41,6 +47,14 @@ public class EditorComitee {
 
 	public void setChiefEditor(Editor chiefEditor) {
 		this.chiefEditor = chiefEditor;
+	}
+
+	public List<Editor> getEditors() {
+		return editors;
+	}
+
+	public void setEditors(List<Editor> editors) {
+		this.editors = editors;
 	}
 	
 	

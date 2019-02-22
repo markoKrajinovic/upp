@@ -8,16 +8,18 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { IndexComponent } from './index/index.component';
 import { TasksComponent } from './tasks/tasks.component';
+import { AuthorsThesesComponent } from './authors-theses/authors-theses.component';
+import { ThesesComponent } from './theses/theses.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    IndexComponent,
-    TasksComponent
+    TasksComponent,
+    AuthorsThesesComponent,
+    ThesesComponent
   ],
   imports: [
     BrowserModule,

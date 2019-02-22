@@ -30,4 +30,11 @@ export class ProcessService {
     return this.http.post('api/process/submit/' + taskId, form);
   }
 
+  getTheses(){
+    return this.http.get('/api/editor/theses');
+  }
+
+  getThesesByAuthor(username){
+    return this.http.post('/api/author/my-theses', {'username': username});
+  }
 }

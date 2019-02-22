@@ -2,6 +2,7 @@ package com.project.scientificrepository.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,8 @@ import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.form.FormField;
 import org.camunda.bpm.engine.form.TaskFormData;
+import org.camunda.bpm.engine.impl.form.FormFieldImpl;
+import org.camunda.bpm.engine.impl.form.type.EnumFormType;
 import org.camunda.bpm.engine.runtime.Execution;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,8 @@ import com.project.scientificrepository.dto.FormSubmissionDto;
 import com.project.scientificrepository.dto.StringDto;
 import com.project.scientificrepository.dto.TaskDto;
 import com.project.scientificrepository.dto.Token;
+import com.project.scientificrepository.model.Magazine;
+import com.project.scientificrepository.repository.MagazineRepository;
 
 @RestController
 @RequestMapping(value = "/process")
@@ -42,6 +47,9 @@ public class ProcessController {
 
 	@Autowired
 	private FormService formService;
+	
+	@Autowired
+	private MagazineRepository magazineRepository;
 
 	@RequestMapping(value = "/start", method = RequestMethod.POST)
 	public ResponseEntity<StringDto> startProcess(@RequestBody Token token) {
@@ -78,18 +86,38 @@ public class ProcessController {
 
 	@GetMapping(path = "/get/{taskId}", produces = "application/json")
 	public @ResponseBody FormFieldsDto get(@PathVariable String taskId) {
-
+		
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-
 		
 		TaskFormData tfd = formService.getTaskFormData(task.getId());
 		List<FormField> properties = tfd.getFormFields();
 		
-		 /* for (FormField fp : properties) { System.out.println(fp.getId() +
-		  fp.getType()); }*/
-		 
+		
+		if(task.getName().equals("Biranje casopisa"))
+			properties = createMagazineForm();
 
 		return new FormFieldsDto(task.getId(), task.getProcessInstanceId(), properties);
+	}
+
+
+	private List<FormField> createMagazineForm() {
+		FormFieldImpl ff = new FormFieldImpl();
+		ff.setId("casopis_id");
+		ff.setLabel("Casopis");
+		
+		List<Magazine> magazines = magazineRepository.findAll();
+		Map<String, String> mapa = new HashMap<String, String>();
+		
+		for(Magazine m: magazines) {
+			mapa.put(m.getIssn(), m.getName());
+		}
+		
+		EnumFormType enumType = new EnumFormType(mapa);
+		ff.setType(enumType);
+		List<FormField> properties = new LinkedList<FormField>(); 
+		properties.add(ff);
+		
+		return properties;
 	}
 
 	@PostMapping(path = "/submit/{taskId}")

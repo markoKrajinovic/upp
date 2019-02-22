@@ -20,10 +20,10 @@ export class TasksComponent implements OnInit {
   constructor(private processService: ProcessService, private router: Router) { }
 
   ngOnInit() {
-      this.processService.getTasks().subscribe((data: any) => {
-        this.tasks = data;
-        
-      })
+    this.processService.getTasks().subscribe((data: any) => {
+      this.tasks = data;
+
+    })
 
   }
 
@@ -31,9 +31,9 @@ export class TasksComponent implements OnInit {
     this.processService.getTaskForm(taskId).subscribe((data: any) => {
       this.formFields = data.formFields;
       this.taskId = data.taskId;
-      this.formFields.forEach( (field) =>{
-          
-        if( field.type.name=='enum'){
+      this.formFields.forEach((field) => {
+
+        if (field.type.name == 'enum') {
           this.enumValues = Object.keys(field.type.values);
         }
       });
@@ -45,10 +45,10 @@ export class TasksComponent implements OnInit {
     for (var property in value) {
       //console.log(property);
       //console.log(value[property]);
-      if(property == 'username_login'){
+      if (property == 'username_login') {
         localStorage.setItem('username', value[property]);
         localStorage.setItem('role', 'author');
-        }
+      }
       o.push({ fieldId: property, fieldValue: value[property] });
     }
 
@@ -60,13 +60,13 @@ export class TasksComponent implements OnInit {
     });
   }
 
-  publish(){
+  publish() {
     this.processService.startProcess().subscribe((data: any) => {
       window.location.reload();
     })
   }
 
-  logout(){
+  logout() {
     localStorage.clear();
     this.router.navigate(['login']);
   }
@@ -77,5 +77,21 @@ export class TasksComponent implements OnInit {
       return true;
     else
       return false;
+  }
+
+  isEditor(): boolean {
+    var role = localStorage.getItem('role');
+    if (role == 'editor')
+      return true;
+    else
+      return false;
+  }
+
+  myTheses() {
+    this.router.navigate(['authors-theses'])
+  }
+
+  allTheses() {
+    this.router.navigate(['theses'])
   }
 }

@@ -11,6 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -30,22 +34,32 @@ public class Thesis {
 	// @Size(min = 3, max = 35)
 	private String summary;
 
+	@Transient
 	private String pdfLocation;
-
+	
+	@Transient
 	private String pdfFinalLocation;
 
+	@Column
 	private String pdfText;
+	
+	@Column
+	private String chiefEditorsComment;
 
+	@JsonIgnore
 	@ManyToMany
 	private List<Magazine> magazines = new LinkedList<Magazine>();
 
+	@JsonIgnore
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "author_fk")
 	private Author author;
 
+	@JsonManagedReference
 	@ManyToMany
 	private List<CoAuthor> coAuthors;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "field_fk")
 	private ScientificField scientificField;
@@ -90,8 +104,14 @@ public class Thesis {
 	public void setPdfFinalLocation(String pdfFinalLocation) {
 		this.pdfFinalLocation = pdfFinalLocation;
 	}
-	
-	
+
+	public String getChiefEditorsComment() {
+		return chiefEditorsComment;
+	}
+
+	public void setChiefEditorsComment(String chiefEditorsComment) {
+		this.chiefEditorsComment = chiefEditorsComment;
+	}
 
 	public String getKeyWords() {
 		return keyWords;

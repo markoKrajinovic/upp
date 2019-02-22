@@ -10,7 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+
 
 
 @Entity
@@ -38,6 +40,12 @@ public class Magazine {
 	
 	@ManyToMany(mappedBy = "memberships")
 	private List<Author> authors;
+	
+	@ManyToMany(mappedBy = "magazines")
+	private List<ScientificField> scientificFields;
+	
+	@ManyToOne
+	private ReviewerComitee reviewerComitee;
 
 	public Long getId() {
 		return id;
@@ -93,6 +101,22 @@ public class Magazine {
 
 	public void setIssn(String issn) {
 		this.issn = issn;
+	}
+
+	public List<ScientificField> getScientificFields() {
+		return scientificFields;
+	}
+
+	public void setScientificFields(List<ScientificField> scientificFields) {
+		this.scientificFields = scientificFields;
+	}
+
+	public ReviewerComitee getReviewerComitee() {
+		return reviewerComitee;
+	}
+
+	public void setReviewerComitee(ReviewerComitee reviewerComitee) {
+		this.reviewerComitee = reviewerComitee;
 	}
 	
 	
