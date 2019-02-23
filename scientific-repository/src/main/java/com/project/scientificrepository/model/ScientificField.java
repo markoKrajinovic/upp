@@ -32,6 +32,9 @@ public class ScientificField {
 	
 	@ManyToMany
 	private List<Editor> editors;
+	
+	@ManyToMany
+	private List<Reviewer> reviewers;
 
 
 	public Long getId() {
@@ -72,6 +75,14 @@ public class ScientificField {
 
 	public void setEditors(List<Editor> editors) {
 		this.editors = editors;
+	}
+
+	public List<Reviewer> getReviewers() {
+		return reviewers;
+	}
+
+	public void setReviewers(List<Reviewer> reviewers) {
+		this.reviewers = reviewers;
 	}
 
 

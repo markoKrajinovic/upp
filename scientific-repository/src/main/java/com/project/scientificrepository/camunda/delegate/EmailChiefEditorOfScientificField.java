@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.project.scientificrepository.model.Editor;
 import com.project.scientificrepository.model.Magazine;
-import com.project.scientificrepository.model.ScientificField;
 import com.project.scientificrepository.model.Thesis;
 
 @Service
@@ -31,8 +30,8 @@ public class EmailChiefEditorOfScientificField implements JavaDelegate {
 		boolean editorFound = false;
 
 		for (Editor editor : allEditors) {
-			for (ScientificField scientificField : editor.getScientificFields()) {
-				if (scientificField.getId() == thesis.getScientificField().getId()) {
+			for (Editor pom : thesis.getScientificField().getEditors()) {
+				if (editor.getId() == pom.getId()) {
 					execution.setVariable("fieldEditor", editor);
 					emailService.sendMail(editor.geteMail(), "Odabir recenzenata", "Odaberite recenzente za rad " + thesis.getTitle());
 					editorFound = true;

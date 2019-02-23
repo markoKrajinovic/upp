@@ -20,9 +20,9 @@ insert into editor(id,  first_name, last_name, e_mail, city, country, username, 
 insert into magazine (id, name, issn, type, editor_comitee_id) values (-1, 'Magazin 1', 'issn1', 'OPEN_ACCESS', -1);
 insert into magazine (id, name, issn, type, editor_comitee_id) values (-2, 'Magazin 2', 'issn2', 'PAYED_ACCESS', -2);
 
-insert into scientific_field_editors (scientific_fields_id, editors_id) values (-3, -1);
-insert into scientific_field_editors (scientific_fields_id, editors_id) values (-3, -2);
-insert into scientific_field_editors (scientific_fields_id, editors_id) values (-3, -3);
+insert into scientific_field_editors (scientific_field_id, editors_id) values (-1, -3);
+insert into scientific_field_editors (scientific_field_id, editors_id) values (-2, -3);
+insert into scientific_field_editors (scientific_field_id, editors_id) values (-3, -3);
 
 insert into scientific_field_magazines (scientific_fields_id, magazines_id) values (-1, -1);
 insert into scientific_field_magazines (scientific_fields_id, magazines_id) values (-2, -1);
@@ -31,3 +31,21 @@ insert into scientific_field_magazines (scientific_fields_id, magazines_id) valu
 insert into scientific_field_magazines (scientific_fields_id, magazines_id) values (-1, -2);
 insert into scientific_field_magazines (scientific_fields_id, magazines_id) values (-2, -2);
 insert into scientific_field_magazines (scientific_fields_id, magazines_id) values (-3, -2);
+
+insert into reviewer (id,  first_name, last_name, e_mail, city, country, username, password) values (-10, 'Recenzent', 'Prvi', 'marko.krajinovic1233@gmail.com', 'Novi Sad', 'Srbija', 'recenzent1', 'recenzent1');
+insert into reviewer (id,  first_name, last_name, e_mail, city, country, username, password) values (-11, 'Recenzent', 'Drugi', 'marko.krajinovic1233@gmail.com', 'Novi Sad', 'Srbija', 'recenzent2', 'recenzent2');
+
+insert into reviewer_comitee (id) values (-1);
+
+insert into reviewer_comitee_reviewers (reviewer_comitees_id, reviewers_id) values (-1, -10);
+insert into reviewer_comitee_reviewers (reviewer_comitees_id, reviewers_id) values (-1, -11);
+
+update magazine set reviewer_comitee_id = -1 where id = -2;
+
+insert into scientific_field_reviewers (scientific_fields_id, reviewers_id) values (-1, -10);
+insert into scientific_field_reviewers (scientific_fields_id, reviewers_id) values (-2, -10);
+insert into scientific_field_reviewers (scientific_fields_id, reviewers_id) values (-3, -10);
+
+insert into scientific_field_reviewers (scientific_fields_id, reviewers_id) values (-1, -11);
+insert into scientific_field_reviewers (scientific_fields_id, reviewers_id) values (-2, -11);
+insert into scientific_field_reviewers (scientific_fields_id, reviewers_id) values (-3, -11);

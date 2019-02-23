@@ -9,6 +9,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Reviewer {
@@ -37,8 +39,13 @@ public class Reviewer {
 	@Column
 	private String password;
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "reviewers")
 	private List<ReviewerComitee> reviewerComitees;
+	
+	@JsonIgnore
+	@ManyToMany(mappedBy = "reviewers")
+	private List<ScientificField> scientificFields;
 
 	public Long getId() {
 		return id;
@@ -110,6 +117,14 @@ public class Reviewer {
 
 	public void setReviewerComitees(List<ReviewerComitee> reviewerComitees) {
 		this.reviewerComitees = reviewerComitees;
+	}
+
+	public List<ScientificField> getScientificFields() {
+		return scientificFields;
+	}
+
+	public void setScientificFields(List<ScientificField> scientificFields) {
+		this.scientificFields = scientificFields;
 	}
 	
 	

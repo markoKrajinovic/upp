@@ -12,6 +12,7 @@ import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.form.FormField;
 import org.camunda.bpm.engine.form.TaskFormData;
 import org.camunda.bpm.engine.impl.form.FormFieldImpl;
+import org.camunda.bpm.engine.impl.form.type.BooleanFormType;
 import org.camunda.bpm.engine.impl.form.type.EnumFormType;
 import org.camunda.bpm.engine.runtime.Execution;
 import org.camunda.bpm.engine.task.Task;
@@ -33,7 +34,9 @@ import com.project.scientificrepository.dto.StringDto;
 import com.project.scientificrepository.dto.TaskDto;
 import com.project.scientificrepository.dto.Token;
 import com.project.scientificrepository.model.Magazine;
+import com.project.scientificrepository.model.Reviewer;
 import com.project.scientificrepository.repository.MagazineRepository;
+import com.project.scientificrepository.repository.ReviewerRepository;
 
 @RestController
 @RequestMapping(value = "/process")
@@ -47,9 +50,12 @@ public class ProcessController {
 
 	@Autowired
 	private FormService formService;
-	
+
 	@Autowired
 	private MagazineRepository magazineRepository;
+
+	@Autowired
+	private ReviewerRepository reviewerRepository;
 
 	@RequestMapping(value = "/start", method = RequestMethod.POST)
 	public ResponseEntity<StringDto> startProcess(@RequestBody Token token) {
@@ -63,10 +69,9 @@ public class ProcessController {
 		return new ResponseEntity<>(new StringDto(execution.getId()), HttpStatus.OK);
 	}
 
-
 	@PostMapping(path = "/get/tasks")
 	public ResponseEntity<List<TaskDto>> get(@RequestBody Token token) {
-		
+
 		List<Task> tasks = taskService.createTaskQuery().list();
 
 		List<TaskDto> dtos = new ArrayList<TaskDto>();
@@ -86,37 +91,85 @@ public class ProcessController {
 
 	@GetMapping(path = "/get/{taskId}", produces = "application/json")
 	public @ResponseBody FormFieldsDto get(@PathVariable String taskId) {
-		
+
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-		
+
 		TaskFormData tfd = formService.getTaskFormData(task.getId());
 		List<FormField> properties = tfd.getFormFields();
-		
-		
-		if(task.getName().equals("Biranje casopisa"))
+
+		if (task.getName().equals("Biranje casopisa"))
 			properties = createMagazineForm();
+
+		if (task.getName().equals("Dodeljivanje uloge recenzenata")) {
+			properties = createPotentialReviewerForm();
+		}
+
+		if (task.getName().equals("Biranje recenzenata")) {
+			properties = createReviewerForm(task);
+		}
 
 		return new FormFieldsDto(task.getId(), task.getProcessInstanceId(), properties);
 	}
 
+	private List<FormField> createReviewerForm(Task task) {
+		// TODO Auto-generated method stub
+
+		String executionId = task.getExecutionId();
+		@SuppressWarnings("unchecked")
+		List<String> reviewerUsernames = (List<String>) runtimeService.getVariable(executionId, "reviewerUsernames");
+
+		List<FormField> properties = new LinkedList<FormField>();
+
+		for (String username: reviewerUsernames) {
+
+			Reviewer r = reviewerRepository.findByUsername(username);
+			
+			FormFieldImpl ff = new FormFieldImpl();
+			ff.setId(r.getUsername());
+			ff.setLabel(r.getFirstName() + " " + r.getLastName());
+
+			BooleanFormType booleanType = new BooleanFormType();
+			ff.setType(booleanType);
+			properties.add(ff);
+		}
+		return properties;
+	}
+
+	private List<FormField> createPotentialReviewerForm() {
+
+		List<Reviewer> allReviewers = reviewerRepository.findAll();
+		List<FormField> properties = new LinkedList<FormField>();
+
+		for (Reviewer r : allReviewers) {
+
+			FormFieldImpl ff = new FormFieldImpl();
+			ff.setId(r.getUsername());
+			ff.setLabel(r.getFirstName() + " " + r.getLastName());
+
+			BooleanFormType booleanType = new BooleanFormType();
+			ff.setType(booleanType);
+			properties.add(ff);
+		}
+		return properties;
+	}
 
 	private List<FormField> createMagazineForm() {
 		FormFieldImpl ff = new FormFieldImpl();
 		ff.setId("casopis_id");
 		ff.setLabel("Casopis");
-		
+
 		List<Magazine> magazines = magazineRepository.findAll();
 		Map<String, String> mapa = new HashMap<String, String>();
-		
-		for(Magazine m: magazines) {
+
+		for (Magazine m : magazines) {
 			mapa.put(m.getIssn(), m.getName());
 		}
-		
+
 		EnumFormType enumType = new EnumFormType(mapa);
 		ff.setType(enumType);
-		List<FormField> properties = new LinkedList<FormField>(); 
+		List<FormField> properties = new LinkedList<FormField>();
 		properties.add(ff);
-		
+
 		return properties;
 	}
 
@@ -124,7 +177,7 @@ public class ProcessController {
 	public @ResponseBody ResponseEntity<StringDto> post(@RequestBody List<FormSubmissionDto> dto,
 			@PathVariable String taskId) {
 		HashMap<String, Object> map = this.mapListToDto(dto);
-		
+
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
 		String processInstanceId = task.getProcessInstanceId();
 

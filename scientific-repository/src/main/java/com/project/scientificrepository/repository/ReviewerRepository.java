@@ -10,4 +10,6 @@ public interface ReviewerRepository extends JpaRepository<Reviewer, Long> {
 
 	Optional<Reviewer> findByUsernameAndPassword(String username, String password);
 
+	Reviewer findByUsername(String username);
+
 }
