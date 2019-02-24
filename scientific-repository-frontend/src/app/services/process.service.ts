@@ -37,4 +37,8 @@ export class ProcessService {
   getThesesByAuthor(username){
     return this.http.post('/api/author/my-theses', {'username': username});
   }
+
+  getReviewerComments(thesisId){
+    return this.http.get('api/process/reviewer-comments/' + thesisId);
+  }
 }

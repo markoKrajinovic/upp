@@ -1,5 +1,6 @@
 import { ProcessService } from './../services/process.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-authors-theses',
@@ -9,12 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AuthorsThesesComponent implements OnInit {
 
-  constructor(private processService: ProcessService) { }
+  private theses: any[];
+
+  constructor(private processService: ProcessService, private router: Router) { }
 
   ngOnInit() {
-    this.processService.getThesesByAuthor(localStorage.getItem('username')).subscribe(data => {
+    this.processService.getThesesByAuthor(localStorage.getItem('username')).subscribe((data: any) => {
       console.log(data);
+      this.theses = data;
     })
+  }
+
+  reviewerComments(thesisId){
+    this.router.navigate(['/reviewer-comments/' + thesisId]);
   }
 
 }

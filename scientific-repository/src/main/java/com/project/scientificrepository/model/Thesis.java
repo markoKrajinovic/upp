@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -63,7 +64,11 @@ public class Thesis {
 	@ManyToOne
 	@JoinColumn(name = "field_fk")
 	private ScientificField scientificField;
+	
+	@OneToMany(mappedBy = "thesis")
+	private List<Review> reviews;
 
+	
 	public Long getId() {
 		return id;
 	}
@@ -160,5 +165,15 @@ public class Thesis {
 	public void setMagazines(List<Magazine> magazines) {
 		this.magazines = magazines;
 	}
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+	
+	
 	
 }

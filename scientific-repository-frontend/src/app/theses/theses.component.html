@@ -1,3 +1,18 @@
-<p>
-  theses works!
-</p>
+Moji radovi
+<table border="solid">
+  <tr>
+    <td>Naslov</td>
+    <td>Apstrakt</td>
+    <td>Pdf tekst</td>
+    <td>Komentar glavnog urednika</td>
+    <td>Komentari recenzenata</td>
+  </tr>
+  <tr *ngFor="let thesis of theses">
+    <td>{{thesis.title}}</td>
+    <td>{{thesis.summary}}</td>
+    <td>{{thesis.pdfText}}</td>
+    <td>{{thesis.chiefEditorsComment}}</td>
+    <td><button (click)="reviewerComments(thesis.id)"> Komentari recenzenata </button></td>
+
+  </tr>
+</table>

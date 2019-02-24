@@ -1,0 +1,14 @@
+Komentari recenzenata
+<table border="solid">
+  <tr>
+    <td>Komentar</td>
+    <td *ngIf = "isEditor()">Komentar uredniku</td>
+    <td>Predlog za prihvatiti</td>
+  </tr>
+  <tr *ngFor="let review of reviews">
+    <td>{{review.comment}}</td>
+    <td *ngIf = "isEditor()">{{review.commentForEditor}}</td>
+    <td>{{review.publishingSuggestion}}</td>
+
+  </tr>
+</table>

@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ProcessService } from './../services/process.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -9,12 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ThesesComponent implements OnInit {
 
-  constructor(private processService: ProcessService) { }
+  private theses: any[];
+
+  constructor(private processService: ProcessService, private router: Router) { }
 
   ngOnInit() {
-    this.processService.getTheses().subscribe(data => {
+    this.processService.getTheses().subscribe((data: any) => {
       console.log(data);
+      this.theses = data;
     })
+  }
+
+  reviewerComments(thesisId){
+    this.router.navigate(['reviewer-comments/' + thesisId]);
   }
 
 }

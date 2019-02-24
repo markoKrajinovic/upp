@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { AuthorsThesesComponent } from './authors-theses/authors-theses.component';
 import { ThesesComponent } from './theses/theses.component';
+import { ReviewerCommentsComponent } from './reviewer-comments/reviewer-comments.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ThesesComponent } from './theses/theses.component';
     LoginComponent,
     TasksComponent,
     AuthorsThesesComponent,
-    ThesesComponent
+    ThesesComponent,
+    ReviewerCommentsComponent
   ],
   imports: [
     BrowserModule,

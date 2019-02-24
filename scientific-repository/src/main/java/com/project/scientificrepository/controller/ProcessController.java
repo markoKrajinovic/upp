@@ -34,8 +34,12 @@ import com.project.scientificrepository.dto.StringDto;
 import com.project.scientificrepository.dto.TaskDto;
 import com.project.scientificrepository.dto.Token;
 import com.project.scientificrepository.model.Magazine;
+import com.project.scientificrepository.model.PUBLISHING_SUGGESTION;
+import com.project.scientificrepository.model.Review;
 import com.project.scientificrepository.model.Reviewer;
+import com.project.scientificrepository.model.Thesis;
 import com.project.scientificrepository.repository.MagazineRepository;
+import com.project.scientificrepository.repository.ReviewRepository;
 import com.project.scientificrepository.repository.ReviewerRepository;
 
 @RestController
@@ -57,6 +61,9 @@ public class ProcessController {
 	@Autowired
 	private ReviewerRepository reviewerRepository;
 
+	@Autowired
+	private ReviewRepository reviewRepository;
+	
 	@RequestMapping(value = "/start", method = RequestMethod.POST)
 	public ResponseEntity<StringDto> startProcess(@RequestBody Token token) {
 
@@ -101,7 +108,7 @@ public class ProcessController {
 			properties = createMagazineForm();
 
 		if (task.getName().equals("Dodeljivanje uloge recenzenata")) {
-			properties = createPotentialReviewerForm();
+			properties = createPotentialReviewerForm(task);
 		}
 
 		if (task.getName().equals("Biranje recenzenata")) {
@@ -120,10 +127,10 @@ public class ProcessController {
 
 		List<FormField> properties = new LinkedList<FormField>();
 
-		for (String username: reviewerUsernames) {
+		for (String username : reviewerUsernames) {
 
 			Reviewer r = reviewerRepository.findByUsername(username);
-			
+
 			FormFieldImpl ff = new FormFieldImpl();
 			ff.setId(r.getUsername());
 			ff.setLabel(r.getFirstName() + " " + r.getLastName());
@@ -135,20 +142,32 @@ public class ProcessController {
 		return properties;
 	}
 
-	private List<FormField> createPotentialReviewerForm() {
+	private List<FormField> createPotentialReviewerForm(Task task) {
 
 		List<Reviewer> allReviewers = reviewerRepository.findAll();
 		List<FormField> properties = new LinkedList<FormField>();
 
+		String executionId = task.getExecutionId();
+		@SuppressWarnings("unchecked")
+		List<String> chosenReviewers = (List<String>) runtimeService.getVariable(executionId, "chosenReviewers");
+
 		for (Reviewer r : allReviewers) {
+			boolean found = false;
+			if (chosenReviewers != null) {
+				for (String username : chosenReviewers) {
+					if (r.getUsername().equals(username))
+						found = true;
+				}
+			}
+			if (!found) {
+				FormFieldImpl ff = new FormFieldImpl();
+				ff.setId(r.getUsername());
+				ff.setLabel(r.getFirstName() + " " + r.getLastName());
 
-			FormFieldImpl ff = new FormFieldImpl();
-			ff.setId(r.getUsername());
-			ff.setLabel(r.getFirstName() + " " + r.getLastName());
-
-			BooleanFormType booleanType = new BooleanFormType();
-			ff.setType(booleanType);
-			properties.add(ff);
+				BooleanFormType booleanType = new BooleanFormType();
+				ff.setType(booleanType);
+				properties.add(ff);
+			}
 		}
 		return properties;
 	}
@@ -181,10 +200,39 @@ public class ProcessController {
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
 		String processInstanceId = task.getProcessInstanceId();
 
+		if (task.getName().equals("Recenzija")) {
+			obradiRecenziju(dto, task);
+		}
+
 		String processVariable = task.getName().toLowerCase().replace(" ", "_");
 		runtimeService.setVariable(processInstanceId, processVariable, dto);
 		formService.submitTaskForm(taskId, map);
 		return new ResponseEntity<>(new StringDto("success"), HttpStatus.OK);
+	}
+
+	private void obradiRecenziju(List<FormSubmissionDto> dto, Task task) {
+		// TODO Auto-generated method stub
+		
+		String executionId = task.getExecutionId();
+		Thesis thesis = (Thesis) runtimeService.getVariable(executionId, "thesis");
+		
+		Review review = new Review();
+		review.setThesis(thesis);
+		
+		for (FormSubmissionDto field : dto) {
+			if (field.getFieldId().equals("preporukaZaObjavljivanje")) {
+				String publishingSuggestionString = field.getFieldValue();
+				review.setPublishingSuggestion(PUBLISHING_SUGGESTION.valueOf(publishingSuggestionString));
+			}
+			if (field.getFieldId().equals("komentar")) {
+				review.setComment(field.getFieldValue());
+			}
+			if (field.getFieldId().equals("komentarZaUrednika")) {
+				review.setCommentForEditor(field.getFieldValue());
+			}
+		}
+		
+		reviewRepository.save(review);
 	}
 
 	private HashMap<String, Object> mapListToDto(List<FormSubmissionDto> list) {
@@ -194,5 +242,11 @@ public class ProcessController {
 		}
 
 		return map;
+	}
+	
+	@GetMapping("reviewer-comments/{thesisId}")
+	public ResponseEntity<List<Review>> getReviewerComments(@PathVariable Long thesisId) {
+		
+		return new ResponseEntity<>(reviewRepository.findByThesisId(thesisId), HttpStatus.OK);
 	}
 }

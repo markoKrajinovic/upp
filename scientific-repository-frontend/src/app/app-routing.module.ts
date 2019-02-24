@@ -5,13 +5,15 @@ import { NgModule, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { TasksComponent } from './tasks/tasks.component';
+import { ReviewerCommentsComponent } from './reviewer-comments/reviewer-comments.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', component: LoginComponent },
   { path: 'tasks', component: TasksComponent},
   { path: 'authors-theses', component: AuthorsThesesComponent},
-  { path: 'theses', component: ThesesComponent}
+  { path: 'theses', component: ThesesComponent},
+  { path: 'reviewer-comments/:thesisId', component: ReviewerCommentsComponent}
 ]
 
 @NgModule({
