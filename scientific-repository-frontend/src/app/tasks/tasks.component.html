@@ -1,7 +1,7 @@
 TASKS: 
  <button *ngIf = "isAuthor()" (click)="publish()" style="float:right"> Objavi rad </button>
  <button *ngIf = "isAuthor()" (click)="myTheses()" style="float:right"> Moji radovi </button>
- <button *ngIf = "isEditor()" (click)="allTheses()" style="float:right"> Radovi </button>
+ <button *ngIf = "!isAuthor()" (click)="allTheses()" style="float:right"> Radovi </button>
  <button (click)="logout()" style="float:right"> Odjava </button>
 <table>
   <tr *ngFor="let task of tasks">
