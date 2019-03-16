@@ -1,16 +1,25 @@
-Moji radovi
-<table border="solid">
-  <tr>
-    <td>Naslov</td>
-    <td>Pdf tekst</td>
-    <td>Komentar glavnog urednika</td>
-    <td>Komentari recenzenata</td>
-  </tr>
-  <tr *ngFor="let thesis of theses">
-    <td>{{thesis.title}}</td>
-    <td>{{thesis.pdfText}}</td>
-    <td>{{thesis.chiefEditorsComment}}</td>
-    <td><button (click)="reviewerComments(thesis.id)"> Komentari recenzenata </button></td>
+<div align="center">
+  <h4>My Theses</h4>
+  <br />
 
-  </tr>
-</table>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Pdf text</th>
+        <th>Chief Editor's comments</th>
+        <th>Reviewer's comments</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let thesis of theses">
+        <td>{{thesis.title}}</td>
+        <td>{{thesis.pdfText}}</td>
+        <td>{{thesis.chiefEditorsComment}}</td>
+        <td><button (click)="reviewerComments(thesis.id)" class="btn btn-info"> View Comments </button></td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>

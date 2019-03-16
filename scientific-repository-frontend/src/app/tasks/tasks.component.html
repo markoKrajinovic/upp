@@ -1,32 +1,55 @@
-TASKS: 
- <button *ngIf = "isAuthor()" (click)="publish()" style="float:right"> Objavi rad </button>
- <button *ngIf = "isAuthor()" (click)="myTheses()" style="float:right"> Moji radovi </button>
- <button *ngIf = "!isAuthor()" (click)="allTheses()" style="float:right"> Radovi </button>
- <button (click)="logout()" style="float:right"> Odjava </button>
-<table>
-  <tr *ngFor="let task of tasks">
-    <td>{{task.name}}</td>
-    <td><button (click)="doTask(task.taskId)">Uradi zadatak</button></td>
-  </tr>
+<div class="d-flex">
 
-</table>
+  <div class="mr-auto p-2">
+ <button *ngIf = "isAuthor()" (click)="publish()" class="btn btn-info"> Publish Thesis </button>
+ </div>
+ <div class="p-2">
+ <button *ngIf = "isAuthor()" (click)="myTheses()" class="btn btn-info"> My Theses </button>
+ <button *ngIf = "!isAuthor()" (click)="allTheses()" class="btn btn-info"> Theses </button>
 
+ <button (click)="logout()" class="btn btn-warning"> Logout </button>
+ </div>
+</div>
 
+<div align="center">
+  <h4>Tasks:</h4> 
+ <br/>
+
+ <table class="table w-50">
+    <tbody>
+        <tr *ngFor="let task of tasks">
+            <td>{{task.name}}</td>
+            <td align="right"><button (click)="doTask(task.taskId)" class="btn btn-info">Do Task</button></td>
+          </tr>
+    </tbody>
+  </table>
+<br/>
+<br/>
 <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f)">
 
-  <div *ngFor="let field of formFields">
-    <label for={{field.id}}>{{field.label}}</label>
+    <table class="table w-50">
+        <tbody>
 
+  <tr *ngFor="let field of formFields">
+    <td>{{field.label}}</td>
+
+    <td align="right">
     <input type="text" name={{field.id}} ngModel *ngIf="field.type.name=='string'">
     <input type="checkbox" name={{field.id}} ngModel *ngIf="field.type.name=='boolean'">
     <input type="number" name={{field.id}} ngModel *ngIf="field.type.name=='long'">
-    <select name={{field.id}} ngModel *ngIf="field.type.name=='enum'">
+    <select name={{field.id}} class="w-75" ngModel *ngIf="field.type.name=='enum'">
       <option *ngFor="let val of enumValues" value={{val}}>
         {{field.type.values[val]}}
       </option>
     </select>
-  </div>
+  </td>
+  </tr>
+</tbody>
+
+  </table>
 <div *ngIf ="formFields">
-  <input type="submit">
+    <button class="btn btn-info" type="submit">Submit Task</button>
 </div>
 </form>
+
+</div>

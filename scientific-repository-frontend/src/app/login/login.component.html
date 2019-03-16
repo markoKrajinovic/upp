@@ -1,9 +1,27 @@
-<form #f="ngForm" (ngSubmit)="onSubmit()">
-  Username <input type="text" name="username" [(ngModel)]="username"><br/>
-  Password <input type="password" name="password" [(ngModel)]="password"><br/>
+<form #f="ngForm" (ngSubmit)="onSubmit()" class="text-center border border-light p-5">
+  <p class="h4 mb-4">Sign in</p>
+
+  <div class="d-flex justify-content-center">
+    <input type="text" name="username" [(ngModel)]="username" placeholder="Username" class="form-control mb-4 w-25">
+    <!--br/>-->
+  </div>
+  <div class="d-flex justify-content-center">
+
+    <input type="password" name="password" [(ngModel)]="password" placeholder="Password" class="form-control mb-4 w-25">
+    <!--br/>-->
+  </div>
+
   <input type="radio" [(ngModel)]="role" name="role" value="author">Author<br>
   <input type="radio" [(ngModel)]="role" name="role" value="editor">Editor<br>
   <input type="radio" [(ngModel)]="role" name="role" value="reviewer">Reviewer<br>
+  <br/>
 
-  <input type="submit">
+  <!--input type="submit">-->
+  <button class="btn btn-info" type="submit">Sign in</button>
+
+  <!-- Register -->
+  <p>Not a member?
+    <a href="">Register</a>
+  </p>
+
 </form>

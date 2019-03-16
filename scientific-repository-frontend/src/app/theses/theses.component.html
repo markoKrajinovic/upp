@@ -1,18 +1,32 @@
-Radovi
-<table border="solid">
-  <tr>
-    <td>Naslov</td>
-    <td>Apstrakt</td>
-    <td>Pdf tekst</td>
-    <td>Komentar glavnog urednika</td>
-    <td>Komentari recenzenata</td>
-  </tr>
-  <tr *ngFor="let thesis of theses">
-    <td>{{thesis.title}}</td>
-    <td>{{thesis.summary}}</td>
-    <td>{{thesis.pdfText}}</td>
-    <td>{{thesis.chiefEditorsComment}}</td>
-    <td><button (click)="reviewerComments(thesis.id)"> Komentari recenzenata </button></td>
+<div class="d-flex align-items-start">
 
-  </tr>
-</table>
+  <a routerLink="/tasks" class="btn btn-warning">Back</a>
+</div>
+
+<div align="center">
+  <h4>Theses</h4>
+  <br />
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Summary</th>
+        <th>Pdf Text</th>
+        <th>Chief Editor's comments</th>
+        <th>Reviewer's comments</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let thesis of theses">
+        <td>{{thesis.title}}</td>
+        <td>{{thesis.summary}}</td>
+        <td>{{thesis.pdfText}}</td>
+        <td>{{thesis.chiefEditorsComment}}</td>
+        <td><button (click)="reviewerComments(thesis.id)" class="btn btn-info"> View Comments </button></td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>
