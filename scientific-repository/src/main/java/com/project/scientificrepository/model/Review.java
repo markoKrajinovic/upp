@@ -1,5 +1,7 @@
 package com.project.scientificrepository.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -8,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -17,9 +21,9 @@ public class Review {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	/*
+	
 	@ManyToOne(optional = false)
-	private Reviewer reviewer;*/
+	private Reviewer reviewer;
 	
 	@Column
 	private String comment;
@@ -34,6 +38,9 @@ public class Review {
 	@JsonIgnore
 	@ManyToOne
 	private Thesis thesis;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date date;
 
 	public Long getId() {
 		return id;
@@ -42,14 +49,14 @@ public class Review {
 	public void setId(Long id) {
 		this.id = id;
 	}
-/*
+
 	public Reviewer getReviewer() {
 		return reviewer;
 	}
 
 	public void setReviewer(Reviewer reviewer) {
 		this.reviewer = reviewer;
-	}*/
+	}
 
 	public String getComment() {
 		return comment;
@@ -81,6 +88,14 @@ public class Review {
 
 	public void setThesis(Thesis thesis) {
 		this.thesis = thesis;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 	
 	

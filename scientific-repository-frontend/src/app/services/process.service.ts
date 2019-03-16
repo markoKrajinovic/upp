@@ -26,8 +26,8 @@ export class ProcessService {
     return this.http.get('api/process/get/' + taskId);
   }
 
-  submitTaskForm(taskId, form){
-    return this.http.post('api/process/submit/' + taskId, form);
+  submitTaskForm(taskId, username, form){
+    return this.http.post('api/process/submit/' + taskId +'/' + username, form);
   }
 
   getTheses(){

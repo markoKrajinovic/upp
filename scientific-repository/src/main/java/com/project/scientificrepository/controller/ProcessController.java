@@ -1,6 +1,7 @@
 package com.project.scientificrepository.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -192,16 +193,16 @@ public class ProcessController {
 		return properties;
 	}
 
-	@PostMapping(path = "/submit/{taskId}")
+	@PostMapping(path = "/submit/{taskId}/{username}")
 	public @ResponseBody ResponseEntity<StringDto> post(@RequestBody List<FormSubmissionDto> dto,
-			@PathVariable String taskId) {
+			@PathVariable String taskId, @PathVariable String username) {
 		HashMap<String, Object> map = this.mapListToDto(dto);
 
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
 		String processInstanceId = task.getProcessInstanceId();
 
 		if (task.getName().equals("Recenzija")) {
-			obradiRecenziju(dto, task);
+			obradiRecenziju(dto, task, username);
 		}
 
 		String processVariable = task.getName().toLowerCase().replace(" ", "_");
@@ -210,13 +211,19 @@ public class ProcessController {
 		return new ResponseEntity<>(new StringDto("success"), HttpStatus.OK);
 	}
 
-	private void obradiRecenziju(List<FormSubmissionDto> dto, Task task) {
+	private void obradiRecenziju(List<FormSubmissionDto> dto, Task task, String username) {
 		// TODO Auto-generated method stub
 		
 		String executionId = task.getExecutionId();
 		Thesis thesis = (Thesis) runtimeService.getVariable(executionId, "thesis");
 		
+		Reviewer reviewer = reviewerRepository.findByUsername(username);
+		
+		System.out.println("REVIEWER " + reviewer.getUsername() + " " + reviewer.geteMail());
+		
 		Review review = new Review();
+		review.setReviewer(reviewer);
+		review.setDate(new Date());
 		review.setThesis(thesis);
 		
 		for (FormSubmissionDto field : dto) {

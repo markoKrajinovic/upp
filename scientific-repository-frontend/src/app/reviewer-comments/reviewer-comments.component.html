@@ -10,18 +10,21 @@
   <table class="table">
     <thead>
       <tr>
+        <th>Reviewer</th>
         <th>Comment</th>
         <th *ngIf="isEditor()">Comment for Editor</th>
         <th>Accaptance Suggestion</th>
+        <th>Review Date</th>
       </tr>
     </thead>
 
     <tbody>
       <tr *ngFor="let review of reviews">
+        <td>{{review.reviewer.firstName}} {{review.reviewer.lastName}}</td>
         <td>{{review.comment}}</td>
         <td *ngIf="isEditor()">{{review.commentForEditor}}</td>
         <td>{{review.publishingSuggestion}}</td>
-
+        <td>{{review.date | date: 'dd/MM/yyyy hh:mm'}}</td>
       </tr>
     </tbody>
   </table>

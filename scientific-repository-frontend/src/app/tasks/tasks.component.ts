@@ -54,7 +54,7 @@ export class TasksComponent implements OnInit {
 
     console.log(o);
 
-    this.processService.submitTaskForm(this.taskId, o).subscribe(data => {
+    this.processService.submitTaskForm(this.taskId, localStorage.getItem('username'), o).subscribe(data => {
       console.log(data);
       window.location.reload();
     });
