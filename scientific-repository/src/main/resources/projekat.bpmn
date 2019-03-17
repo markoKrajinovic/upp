@@ -36,9 +36,6 @@
           <camunda:formData>
             <camunda:formField id="ime_registracija" label="Ime" type="string" />
             <camunda:formField id="prezime_registracija" label="Prezime" type="string" />
-            <camunda:formField id="grad_registracija" label="Grad" type="string" />
-            <camunda:formField id="drzava_registracija" label="Drzava" type="string" />
-            <camunda:formField id="titula_registracija" label="Titula" type="string" />
             <camunda:formField id="email_registracija" label="Email" type="string" />
             <camunda:formField id="password_registracija" label="Password" type="string" />
             <camunda:formField id="username_registracija" label="Username" type="string" />

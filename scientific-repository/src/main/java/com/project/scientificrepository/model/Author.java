@@ -1,5 +1,6 @@
 package com.project.scientificrepository.model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -7,31 +8,34 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
 public class Author extends CoAuthor {
 
-	@Column(nullable = false)
+	@Column
 	private String city;
 	
 	@Column
 	private String country;
 	
-	@Column(unique = true)
+	@Column(unique = true, nullable = false)
 	private String username;
 	
-	@Column
+	@Column(nullable = false)
 	private String password;
 	
 	@Column
 	private String title;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "author")
-	private List<Thesis> theses;
+	private List<Thesis> theses = new LinkedList<Thesis>();
 	
+	@JsonIgnore
 	@ManyToMany
-	private List<Magazine> memberships;
+	private List<Magazine> memberships = new LinkedList<Magazine>();
 
 	public String getCity() {
 		return city;
@@ -81,7 +85,6 @@ public class Author extends CoAuthor {
 		this.username = username;
 	}
 	
-
 	public List<Magazine> getMemberships() {
 		return memberships;
 	}

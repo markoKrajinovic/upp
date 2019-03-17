@@ -12,6 +12,7 @@ import { TasksComponent } from './tasks/tasks.component';
 import { AuthorsThesesComponent } from './authors-theses/authors-theses.component';
 import { ThesesComponent } from './theses/theses.component';
 import { ReviewerCommentsComponent } from './reviewer-comments/reviewer-comments.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ReviewerCommentsComponent } from './reviewer-comments/reviewer-comments
     TasksComponent,
     AuthorsThesesComponent,
     ThesesComponent,
-    ReviewerCommentsComponent
+    ReviewerCommentsComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,

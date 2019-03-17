@@ -45,10 +45,6 @@ export class TasksComponent implements OnInit {
     for (var property in value) {
       //console.log(property);
       //console.log(value[property]);
-      if (property == 'username_login') {
-        localStorage.setItem('username', value[property]);
-        localStorage.setItem('role', 'author');
-      }
       o.push({ fieldId: property, fieldValue: value[property] });
     }
 

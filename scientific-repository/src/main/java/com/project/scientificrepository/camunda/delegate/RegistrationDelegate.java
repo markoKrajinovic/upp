@@ -43,6 +43,7 @@ public class RegistrationDelegate implements JavaDelegate {
 		else {
 			identityService.saveUser(user);
 			identityService.createMembership(user.getId(), "author");
+			execution.setVariable("loggedAuthor", user);
 		}
 
 	}
@@ -57,15 +58,6 @@ public class RegistrationDelegate implements JavaDelegate {
 			if (formField.getFieldId().equals("prezime_registracija")) {
 				newAuthor.setLastName(formField.getFieldValue());
 			}
-			if (formField.getFieldId().equals("grad_registracija")) {
-				newAuthor.setCity(formField.getFieldValue());
-			}
-			if (formField.getFieldId().equals("drzava_registracija")) {
-				newAuthor.setCountry(formField.getFieldValue());
-			}
-			if (formField.getFieldId().equals("titula_registracija")) {
-				newAuthor.setTitle(formField.getFieldValue());
-			}
 			if (formField.getFieldId().equals("email_registracija")) {
 				newAuthor.seteMail(formField.getFieldValue());
 			}
@@ -78,9 +70,7 @@ public class RegistrationDelegate implements JavaDelegate {
 					throw new BpmnError("duplicate_username");*/
 			}
 		}
-
 		
-		//Author a = authorRepository.save(newAuthor);
 		return newAuthor;
 	}
 
